@@ -34,6 +34,18 @@ h1 {
   padding: 10px;
 }
 
+.whole-ul-styles {
+  list-style: none;
+}
+
+.js-made-bookmarks {
+  display: block;
+}
+
+.js-toggle-expand {
+  display: block;
+}
+
 @media all and (min-width: 600px) {
   .group {
     flex-direction: row;

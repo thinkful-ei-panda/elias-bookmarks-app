@@ -13,8 +13,19 @@
   <!--What do you Think?-->
   <header class="group"> <h1>Your Bookmarks</h1> <form class="js-new-bookmark">
     <fieldset><legend>ENTER A NEW BOOKMARK HERE</legend>
-      <input type="text" name="js-new-bookmark" class="form-styles" placeholder="e.g. www.Thinkful.com"> 
+      <input type="text" name="js-new-title" class="title-styles" placeholder="e.g. Best Coding Bootcamp Ever" required/>
+      <input type="text" name="js-new-url" class="url-styles" placeholder="e.g. www.Thinkful.com" required/>
+      <textarea name="js-new-description" class="textarea-styles" rows="4" cols="20" placeholder="e.g. Thinkful Engineering Immersion is an all encompassing deep dive into the world of coding." required></textarea>
+      <select name="js-rating">
+        <option value="none" selected disabled hidden>8</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>  
       <button type="submit">Add Bookmark</button>
+    </fieldset>
   </form></header>
 
 
@@ -24,8 +35,11 @@
       <button class="js-toggle-expand">Expand</button>
     </li>
     <li class="js-bookmark-element" data-item-id="1234">
-      <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
-      <button class="js-toggle-expand">Expand</button>
+      <fieldset><legend class="title-styles">Bookmark Title</legend>
+        <span class="js-made-bookmarks textarea-styles">Description</span>
+        <span class="js-made-bookmarks">Rating</span>
+        <span class="js-made-bookmarks url-styles">URL<span>
+        <button class="js-toggle-expand">Delete</button>
     </li>
     <li class="js-bookmark-element" data-item-id="12345">
       <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
