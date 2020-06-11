@@ -1,0 +1,41 @@
+/* Google Fonts Import */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Cormorant+Garamond:wght@300&family=EB+Garamond:wght@500&family=Quicksand:wght@500&family=Ubuntu:wght@500&family=Zilla+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Iceland&family=Montserrat:wght@300;400;600&display=swap');
+
+/*
+font-family: 'Iceland', cursive;
+font-family: 'Montserrat', sans-serif;
+*/
+
+
+body {
+  background-color: #1e88e5;
+  margin: 0;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  margin: auto;
+  text-align: center;
+  font-family: 'Iceland', cursive;
+  color: #fff;
+  font-size: 51px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100px;
+  background-color: #afbdc4;
+  padding: 10px;
+}
+
+@media all and (min-width: 600px) {
+  .group {
+    flex-direction: row;
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
+  <link href="index.css" rel="stylesheet" type="text/css" />
+  <title>Boookmarks App</title>
+</head>
+<body>
+  <!---------------------->
+  <!--What do you Think?-->
+  <header class="group"> <h1>Your Bookmarks</h1> <form class="js-new-bookmark">
+    <fieldset><legend>ENTER A NEW BOOKMARK HERE</legend>
+      <input type="text" name="js-new-bookmark" class="form-styles" placeholder="e.g. www.Thinkful.com"> 
+      <button type="submit">Add Bookmark</button>
+  </form></header>
+
+
+  <main class="js-bookmarks group"><ul class="js-bookmarks-list whole-ul-styles">
+    <li class="js-bookmark-element" data-item-id="123">
+      <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
+      <button class="js-toggle-expand">Expand</button>
+    </li>
+    <li class="js-bookmark-element" data-item-id="1234">
+      <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
+      <button class="js-toggle-expand">Expand</button>
+    </li>
+    <li class="js-bookmark-element" data-item-id="12345">
+      <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
+      <button class="js-toggle-expand">Expand</button>
+    </li>
+  </ul></main>
+  <!--What do you Think?-->
+  <!---------------------->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.js" crossorigin="anonymous"></script>
+  <script type="module" src="scripts/index.js" ></script>
+</body>
+</html>
