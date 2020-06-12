@@ -11,13 +11,13 @@
 <body>
   <!---------------------->
   <!---What do you Think?--->
-  <header class="group"> <h1>Your Bookmarks</h1> <form class="js-new-bookmark">
-    <fieldset><legend>ENTER A NEW BOOKMARK HERE</legend>
+  <header class="group"> <h1> Your Bookmarks</h1><form class="js-new-bookmark">
+    <fieldset><legend>Enter a new bookmark here</legend>
       <input type="text" name="js-new-title" class="title-styles" placeholder="e.g. Best Coding Bootcamp Ever" required/>
       <input type="text" name="js-new-url" class="url-styles" placeholder="e.g. www.Thinkful.com" required/>
       <textarea name="js-new-desc" class="desc-styles" rows="4" cols="20" placeholder="e.g. Thinkful Engineering Immersion is an all encompassing deep dive into the world of coding." required></textarea>
       <select name="js-new-rating" id="rating-styles">
-        <option value="none" selected disabled hidden>8</option>
+        <option value="none" selected disabled hidden>1</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -27,7 +27,7 @@
       <button type="submit">Add Bookmark</button>
       <button type="submit">Filter</button>
     </fieldset>
-  </form></header>
+  </form><!-- <button id="js-add-item" class="item">+Add Item+</button><button id="js-filter-by" class="item">-Filter By-</button> --></header>
 
 
   <main class="js-bookmarks group"><ul class="js-bookmarks-list whole-ul-styles">

@@ -9,8 +9,9 @@ const BASE_URL = 'https://thinkful-list-api.herokuapp.com/elias/bookmarks';
 
 const listApiFetch = function (...args) {
   // setup var in scope outside of promise chain
-  console.log(...args);
+
   let error;
+  console.log('fetching in process');
   return fetch(...args)
     .then(res => {
       if (!res.ok) {
@@ -36,9 +37,8 @@ const getBookmarks = function () {
 };
 
 const createBookmarks = function (data) {
-  console.log('apis firing');
+  console.log('apis are firing');
   const newData = JSON.stringify(data);
-  console.log(typeof(newData));
   return listApiFetch(BASE_URL, {
     method: 'POST',
     headers: {
