@@ -9,6 +9,7 @@ const BASE_URL = 'https://thinkful-list-api.herokuapp.com/elias/bookmarks';
 
 const listApiFetch = function (...args) {
   // setup var in scope outside of promise chain
+  console.log(...args);
   let error;
   return fetch(...args)
     .then(res => {
@@ -28,4 +29,30 @@ const listApiFetch = function (...args) {
       }
       return data;
     });
+};
+
+const getBookmarks = function () {
+  return listApiFetch(`${BASE_URL}`);
+};
+
+const createBookmarks = function (data) {
+  console.log('apis firing');
+  const newData = JSON.stringify(data);
+  console.log(typeof(newData));
+  return listApiFetch(BASE_URL, {
+    method: 'POST',
+    body: newData
+  });
+};
+
+const deleteBookmarks = function (id) {
+  return listApiFetch(`${BASE_URL}/${id}`, {
+    method: 'DELETE'
+  });
+};
+
+export default {
+  getBookmarks,
+  createBookmarks,
+  deleteBookmarks
 };

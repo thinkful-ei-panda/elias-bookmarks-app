@@ -19,7 +19,7 @@ const toggleCheckedFilter = function () {
 
 };
 
-const set Error = function () {
+const setError = function () {
 
 };
 
