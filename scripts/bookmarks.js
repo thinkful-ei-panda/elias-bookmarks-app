@@ -4,12 +4,13 @@ import api from './api.js';
 const generateStartPage = function() {
   console.log('start page loaded');
   return `
-  <header class="group" id="js-start-page">
+  <header id="js-header" class="group" >
     <h1> Your Bookmarks</h1>
     <button id="js-add-item" class="item">+Add Item+</button>
     <button id="js-filter-by" class="item">-Filter By-</button>
   </header>
-  <main class="js-bookmarks group">
+
+  <main id="js-bookmarks" class="group">
   <ul id="js-bookmarks-list" class="whole-ul-styles">
   </ul>
   </main>`;
@@ -18,12 +19,12 @@ const generateStartPage = function() {
 const generateAddBookmarkSection = function () {
   console.log('So you want to add a new bookmark?');
   return `
-  <header class="group" id="js-start-page"> <h1>Your Bookmarks</h1> 
-  <form class="js-new-bookmark">
+  <header id="js-header" class="group"> <h1>Your Bookmarks</h1> 
+  <form class="js-new-bookmark" onsubmit="event.preventDefault(); renderStartPage();">
     <fieldset><legend>Enter a new bookmark here</legend>
       <input type="text" name="js-new-title" class="title-styles" placeholder="e.g. Best Coding Bootcamp Ever" required/>
       <input type="text" name="js-new-url" class="url-styles" placeholder="e.g. www.Thinkful.com" required/>
-      <textarea name="js-new-desc" class="desc-styles" rows="4" cols="20" placeholder="e.g. Thinkful Engineering Immersion is an all encompassing deep dive into the world of coding." required></textarea>
+      <textarea name="js-new-desc" class="desc-styles" rows="4" cols="20" placeholder="e.g. Thinkful Engineering Immersion is an all encompassing deep dive into the world of coding."></textarea>
       <select name="js-new-rating" id="rating-styles">
         <option value="none" selected disabled hidden>1</option>
         <option value="1">1</option>
@@ -33,21 +34,27 @@ const generateAddBookmarkSection = function () {
         <option value="5">5</option>
       </select>  
       <button type="submit">Add Bookmark</button>
+      <button type="submit">Cancel</button>
     </fieldset>
   </form>
   <button id="js-filter-by" class="item">-Filter By-</button></header>`;
 };
 
+const generateHeaderSection = function () {
+  console.log('Only The Header');
+};
+
 const generateExpansion = function (bookmark) {
   console.log('Let us see the details');
   return `
+  <li class="js-bookmark-element" data-item-id="${bookmark.id}">
     <fieldset><legend>${bookmark.title}</legend>
       <button><a href="${bookmark.url}" target="_blank">Visit Site</a></button>
       <textarea name="js-new-desc" class="desc-styles" rows="4" cols="20">${bookmark.desc}
       <span>${bookmark.rating}</span></textarea>
       <button>Delete</button>
     </fieldset>
-  `;
+  </li>`;
 };
 
 const generateBookmarkElement = function (bookmark) {
@@ -80,10 +87,18 @@ const handleCloseError = function () {
 const render = function () {
   console.log('we got render');
   let bookmarks = [...store.bookmarks];
+  console.log(bookmarks);
+  bookmarks.forEach((bookmark)=>{
+    if(bookmark.expanded===true){
+      renderBookmarkDetails(bookmark);
+    }
+  });
   const bookmarksString = generateBookmarksString(bookmarks);
   //console.log(bookmarksString);
   //console.log(store.adding);
+  
   $('#js-bookmarks-list').html(bookmarksString);
+
 };
 
 const renderStartPage = function ()  {
@@ -94,22 +109,23 @@ const renderStartPage = function ()  {
 };
 
 const renderAddingSection = function () {
-  $('#js-start-page').html(generateAddBookmarkSection());
+  $('#js-header').html(generateAddBookmarkSection());
+  store.adding = !store.adding;
   console.log(store.adding);
 };
 
-const renderBookmarkDetails = function () {
-  $('.js-toggle-expand').html(generateExpansion());
+const renderBookmarkDetails = function (bookmark) {
+  $('#js-bookmarks-list').html(generateExpansion(bookmark));
 };
 
 const handleStartPage = function () {
   api.getBookmarks()
     .then((oldBookmarks) => {
-      oldBookmarks = [...oldBookmarks];
-      const bookmarksString = generateBookmarksString(oldBookmarks);
-      console.log(bookmarksString);
-      console.log(store.adding);
-      $('#js-bookmarks-list').html(bookmarksString);
+      console.log(oldBookmarks);
+      oldBookmarks.forEach((bookmark) => {
+        store.addBookmark(bookmark);
+      });
+      render();
     })
     .catch((error) =>{
       store.setError(error.message);
@@ -117,21 +133,44 @@ const handleStartPage = function () {
 };
 
 const handleAddingPage = function () {
-  $('#js-start-page').on('click','#js-add-item', event => {
+  $('#js-header').on('click','#js-add-item', event => {
     event.preventDefault();
     renderAddingSection();
   });
 };
 
 const handleExpand = function () {
-  $('#js-start-page').on('click','.js-toggle-expand', event => {
-    event.preventDefault();
-    renderExpansion();
+  $('#js-bookmarks-list').on('click','.js-toggle-expand', event => {
+    //event.preventDefault();
+    const id = getBookmarkId(event.currentTarget);
+    
+    api.updateBookmark(id, {expanded: false})
+      .then(() => {
+        api.getBookmarks()
+          .then((oldBookmarks) => {
+            console.log(oldBookmarks);
+            oldBookmarks.forEach((bookmark) => {
+              store.addBookmark(bookmark);
+            });
+            render();
+          })
+          .catch((error) =>{
+            store.setError(error.message);
+          });
+      })
+      .catch((error) => {
+        store.setError(error.message);
+        renderError();
+      });
+    
+    store.toggleExpandButton(id);
+    const bookmark = store.findById(id);
+    render();
   });
 };
 
 const handleNewBookmarkSubmit =  function () {
-  $('.js-new-bookmark').submit(event => {
+  $('body').submit(event => {
     console.log('gathered submission');
     event.preventDefault();
     const newBookmark = {};
@@ -139,6 +178,7 @@ const handleNewBookmarkSubmit =  function () {
     newBookmark.url = $('.url-styles').val();
     newBookmark.desc = $('.desc-styles').val();
     newBookmark.rating = $('#rating-styles :selected').val();
+
     api.createBookmarks(newBookmark)
       .then((newBookmark) => {
         store.addBookmark(newBookmark);
@@ -150,8 +190,17 @@ const handleNewBookmarkSubmit =  function () {
   });
 };
 
-const getItemId = function () {
+const handleCancelbutton = function () {
+  $('.js-header').submit(event => {
+    event.preventDefault();
+    renderStartPage();
+  });
+};
 
+const getBookmarkId = function (atom) {
+  return $(atom)
+    .closest('.js-bookmark-element')
+    .data('item-id');
 };
 
 const handleDeleteItemClick = function() {
@@ -169,8 +218,10 @@ const handleFilterBy = function () {
 const boundFunctions = function() {
   handleStartPage();
   handleAddingPage();
+  handleCancelbutton();
   handleNewBookmarkSubmit();
   handleExpand();
+  console.log(store.bookmarks);
 };
 
 export default {

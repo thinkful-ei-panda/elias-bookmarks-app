@@ -14,6 +14,10 @@ const listApiFetch = function (...args) {
   console.log('fetching in process');
   return fetch(...args)
     .then(res => {
+      /* console.log(res);
+      console.log(res.ok);
+      console.log(Promise);
+      console.log(res.json); */
       if (!res.ok) {
         error = { code: res.status };
         if (!res.headers.get('content-type').includes('json')) {
@@ -33,6 +37,7 @@ const listApiFetch = function (...args) {
 };
 
 const getBookmarks = function () {
+  
   return listApiFetch(`${BASE_URL}`);
 };
 
@@ -50,6 +55,18 @@ const createBookmarks = function (data) {
   });
 };
 
+const updateBookmark = function (id, updateData) {
+  const newData = JSON.stringify(updateData);
+  return listApiFetch(`${BASE_URL}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: newData
+  });
+};
+
+
 const deleteBookmarks = function (id) {
   return listApiFetch(`${BASE_URL}/${id}`, {
     method: 'DELETE'
@@ -59,5 +76,6 @@ const deleteBookmarks = function (id) {
 export default {
   getBookmarks,
   createBookmarks,
-  deleteBookmarks
+  deleteBookmarks,
+  updateBookmark
 };
