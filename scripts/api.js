@@ -38,6 +38,8 @@ const getBookmarks = function () {
 
 const createBookmarks = function (data) {
   console.log('apis are firing');
+  this.adding = !this.adding;
+  console.log('adding is '+this.adding+' right now.');
   const newData = JSON.stringify(data);
   return listApiFetch(BASE_URL, {
     method: 'POST',
