@@ -13,6 +13,7 @@ const generateStartPage = function() {
 const generateFilterBySection = function () {
   console.log('filter template generated');
   return `
+  <div class="js-header"></div>
   <div class="js-header-filter">
   <form> 
     <select id="js-filterBy-val">
@@ -55,7 +56,7 @@ const generateAddBookmarkSection = function () {
 };
 
 const generateExpansion = function (bookmark) {
-  console.log(`Let us see the details of ${bookmark}`);
+  console.log('expanded template(s) generated');
   return `
   <li class="js-bookmark-element" data-item-id="${bookmark.id}">
     <fieldset><legend>${bookmark.title}</legend>
@@ -69,7 +70,7 @@ const generateExpansion = function (bookmark) {
 };
 
 const generateBookmarkElement = function (bookmark) {
-  console.log('collapsed view templates generated');
+  console.log('collapsed view template(s) generated');
   return `
   <li class="js-bookmark-element" data-item-id="${bookmark.id}">
       <span class="js-bookmark-title title-styles">${bookmark.title} and ${bookmark.rating}</span> 
@@ -96,8 +97,6 @@ const render = function () {
   console.log('we got bookmarks rendered');
   let bookmarks = [...store.bookmarks];
   if (store.filter > 0){
-    console.log('type is '+typeof(store.filter));
-    console.log('type of ratings is '+typeof(bookmarks[0].rating));
     store.filter = parseInt(store.filter);
     bookmarks = bookmarks.filter(bookmark => bookmark.rating ===store.filter);
   }
@@ -119,7 +118,7 @@ const renderAddingSection = function () {
 };
 
 const renderFilterBy = function () {
-  $('.js-header-filter').html(generateFilterBySection());
+  $('.js-header').html(generateFilterBySection());
 };
 
 //------------------------  handlers      ----------------------//
@@ -153,7 +152,6 @@ const handleAddingPage = function () {
 const handleFilterByPage = function () {
   $('header').on('click','#js-filterBy', event => {
     event.preventDefault();
-    console.log(event.currentTarget);
     renderFilterBy(store.filter);    
   });
 };
@@ -162,7 +160,8 @@ const handleCancelButton = function () {
   $('header').on('click','#cancel', event => {
     event.preventDefault();
     console.log(event.currentTarget);
-    return handleStartPage();
+    renderStartPage();
+    render();
   });
 };
 
@@ -191,11 +190,16 @@ const handleCollapse = function () {
 const handleNewBookmarkSubmit =  function () {
   $('.js-header').submit(event => {
     event.preventDefault();
+    store.filter = $('#js-filterBy-val :selected').val();
     const newBookmark = {};
     newBookmark.title = $('.title-styles').val();
     newBookmark.url = $('.url-styles').val();
     newBookmark.desc = $('.desc-styles').val();
     newBookmark.rating = $('#rating-styles :selected').val();
+    console.log(`filtering for bookmarks with rating ${store.filter}`);
+    if ( parseInt(store.filter) > 0 ) {
+      return render();
+    }
     console.log('gathered submission');
     api.createBookmarks(newBookmark)
       .then((newBookmark) => {
@@ -214,10 +218,8 @@ const handleNewBookmarkSubmit =  function () {
 
 const handleFilterBy = function () {
   $('.js-header-filter').submit(event => {
-    console.log(event.currentTarget);
     event.preventDefault();
-    const rating = $('#js-filterBy-val :selected').val();
-    store.filter = rating;
+    store.filter = $('#js-filterBy-val :selected').val();
     console.log(`filtering for bookmarks with rating ${store.filter}`);
     render();
   });
