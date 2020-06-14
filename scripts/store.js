@@ -5,8 +5,8 @@ let filter = 0;
 
 const findById = function (id) {
   //console.log(`looking for this id: ${id} among these: ${bookmarks} which exists here:${this}`);
-  console.log(bookmarks[0].id);
-  console.log(bookmarks.find(currentItem => currentItem.id === id));
+  //console.log(bookmarks[0].id);
+  //console.log(bookmarks.find(currentItem => currentItem.id === id));
   return this.bookmarks.find(currentItem => currentItem.id === id);
 };
 
@@ -18,11 +18,11 @@ const findAndDelete = function (id) {
   this.bookmarks = this.bookmarks.filter(currentItem => currentItem.id !== id);
 };
 
-const toggleExpandButton = function(id) {
+/* const toggleExpandButton = function(id) {
   const bookmark = findById(id);
   console.log(bookmark);
   bookmark.expanded = !bookmark.expanded;
-};
+}; */
 
 const toggleFilter = function (filterBy) {
   this.filter = filterBy;
@@ -31,6 +31,7 @@ const toggleFilter = function (filterBy) {
 const findAndUpdate = function (id, newData) {
   const currentItem = this.findById(id);
   Object.assign(currentItem, newData);
+  console.log(`${currentItem.title} was given expanded = ${currentItem.expanded}`);
 };
 
 const setError = function () {
@@ -43,8 +44,9 @@ export default{
   error,
   filter,
   findById,
+  findAndUpdate,
   addBookmark,
-  toggleExpandButton,
+  //toggleExpandButton,
   findAndDelete,
   toggleFilter,
   setError
