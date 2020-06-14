@@ -2,26 +2,38 @@ import store from './store.js';
 import api from './api.js';
 
 const generateStartPage = function() {
-  console.log('start page loaded');
+  console.log('Only The Header');
   return `
-  <header id="js-header" class="group">
-  <h1> Your Bookmarks</h1>
-  <div >
+  <div class="js-header">
     <button id="js-add-item" class="item">+Add Item+</button>
-    <button id="js-filter-by" class="item">-Filter By-</button>
-  </div>
-  </header>
-  <main id="js-bookmarks" class="group">
-    <ul id="js-bookmarks-list" class="whole-ul-styles">
-    </ul>
-  </main>`;
+    <button id="js-filterBy" class="item">-Filter By-</button>
+  </div>`;
+};
+
+const generateFilterBySection = function () {
+  console.log('filter template generated');
+  return `
+  <div class="js-header-filter">
+  <form> 
+    <select id="js-filterBy-val">
+      <option value="none" selected disabled hidden>0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <input type="submit" id="js-filterBy-submit"></input>
+    <button id="cancel">Cancel</button>
+  </form>
+  </div`;
 };
 
 const generateAddBookmarkSection = function () {
   console.log('So you want to add a new bookmark?');
   return `
-  <header id="js-header" class="group"> <h1>Your Bookmarks</h1> 
-  <form class="js-new-bookmark" onsubmit="event.preventDefault(); renderStartPage();">
+  <div class="js-header">
+  <form class="js-new-bookmark">
     <fieldset>
     <legend>Enter a new bookmark here</legend>
       <input type="text" name="js-new-title" class="title-styles" placeholder="e.g. Best Coding Bootcamp Ever" required />
@@ -39,13 +51,9 @@ const generateAddBookmarkSection = function () {
       <button type="click" id="cancel">Cancel</button>
     </fieldset>
   </form>
-  <button id="js-filter-by" class="item">-Filter By-</button></header>`;
+  </div>`;
 };
 
-/* const generateHeaderSection = function () {
-  console.log('Only The Header');
-};
- */
 const generateExpansion = function (bookmark) {
   console.log(`Let us see the details of ${bookmark}`);
   return `
@@ -82,30 +90,40 @@ const generateBookmarksString = function (bookmarksList) {
   return bookmarks.join('');
 };
 
+//------------------------  renderers      ----------------------//
+//------------------------  renderers      ----------------------//
 const render = function () {
-  console.log('we got render');
+  console.log('we got bookmarks rendered');
   let bookmarks = [...store.bookmarks];
-  /* if(store.filter === 5){
-    //bookmarks = store.filterBy
-  } */
+  if (store.filter > 0){
+    console.log('type is '+typeof(store.filter));
+    console.log('type of ratings is '+typeof(bookmarks[0].rating));
+    store.filter = parseInt(store.filter);
+    bookmarks = bookmarks.filter(bookmark => bookmark.rating ===store.filter);
+  }
+  console.log(bookmarks);
   const bookmarksString = generateBookmarksString(bookmarks);
-  $('#js-bookmarks-list').html(bookmarksString);
+  $('#js-bookmarks').html(bookmarksString);
 
 };
 
 const renderStartPage = function ()  {
-  $('body').html(generateStartPage());
+  $('.js-header').html(generateStartPage());
   console.log('Start Page Rendered');
 };
 
 const renderAddingSection = function () {
-  $('header').html(generateAddBookmarkSection());
+  $('.js-header').html(generateAddBookmarkSection());
   store.adding = !store.adding;
   console.log(store.adding);
 };
 
+const renderFilterBy = function () {
+  $('.js-header-filter').html(generateFilterBySection());
+};
 
-
+//------------------------  handlers      ----------------------//
+//------------------------  handlers      ----------------------//
 const handleStartPage = function () {
   renderStartPage();
   if (store.adding===true) {
@@ -126,16 +144,24 @@ const handleStartPage = function () {
 };
 
 const handleAddingPage = function () {
-  $('body').on('click','#js-add-item', event => {
+  $('.js-header').on('click','#js-add-item', event => {
     event.preventDefault();
     renderAddingSection();
   });
 };
 
-const handleCancelButton = function () {
-  $('body').on('click','#cancel', event => {
+const handleFilterByPage = function () {
+  $('header').on('click','#js-filterBy', event => {
     event.preventDefault();
-    //store.adding = !store.adding;
+    console.log(event.currentTarget);
+    renderFilterBy(store.filter);    
+  });
+};
+
+const handleCancelButton = function () {
+  $('header').on('click','#cancel', event => {
+    event.preventDefault();
+    console.log(event.currentTarget);
     return handleStartPage();
   });
 };
@@ -163,7 +189,7 @@ const handleCollapse = function () {
 };
 
 const handleNewBookmarkSubmit =  function () {
-  $('body').submit(event => {
+  $('.js-header').submit(event => {
     event.preventDefault();
     const newBookmark = {};
     newBookmark.title = $('.title-styles').val();
@@ -183,6 +209,17 @@ const handleNewBookmarkSubmit =  function () {
         store.setError(error.message);
       });
 
+  });
+};
+
+const handleFilterBy = function () {
+  $('.js-header-filter').submit(event => {
+    console.log(event.currentTarget);
+    event.preventDefault();
+    const rating = $('#js-filterBy-val :selected').val();
+    store.filter = rating;
+    console.log(`filtering for bookmarks with rating ${store.filter}`);
+    render();
   });
 };
 
@@ -208,13 +245,7 @@ const handleDelete = function() {
   });
 };
 
-const handleToggleExpand = function ()  {
 
-};
-
-const handleFilterBy = function () {
-
-};
 
 const generateError = function () {
 
@@ -237,9 +268,12 @@ const boundFunctions = function() {
   handleExpand();
   handleCollapse();
   handleDelete();
+  handleFilterByPage();
+  handleFilterBy();
 };
 
 export default {
   renderStartPage,
+  render,
   boundFunctions
 };
