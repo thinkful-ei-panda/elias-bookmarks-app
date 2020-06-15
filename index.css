@@ -39,6 +39,7 @@ h1 {
 
 div.js-header {
   margin-top: 20px;
+  flex: 1;
 }
 
 button#js-add-item.button {
@@ -89,6 +90,7 @@ form.js-new-bookmark {
 }
 
 fieldset {
+  flex: 1;
   margin-top: 100px;
   border: solid 1px;
   border-color: #fff;
@@ -129,14 +131,6 @@ input.url-styles {
   border-radius: 5px;
 }
 
-/* .js-made-bookmarks {
-  display: block;
-}
-
-.js-toggle-expand {
-  display: block;
-} */
-
 .adding {
   display: flex;
   justify-content: space-evenly;
@@ -145,6 +139,18 @@ input.url-styles {
 .submitAndCancel {
   margin-top: 20px;
 }
+
+.rating {
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+}
+
+.expanded {
+  flex: 1;
+  margin: 20px 5px;
+  padding: 0;
+  justify-content: space-between;
+};
 
 @media all and (min-width: 700px) {
   .group {
@@ -160,11 +166,16 @@ input.url-styles {
     flex: 1;
   }
 
+  .mid-width {
+    margin: 0;
+    padding: 0;
+  }
+
   fieldset {
     margin-top: 10px;
     border: solid 1px;
     border-color: #fff;
-    margin-bottom: 0px;
+    margin: 0;
     padding-bottom: 5px;
   }
 

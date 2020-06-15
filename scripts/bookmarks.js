@@ -31,9 +31,9 @@ const generateFilterBySection = function () {
 const generateAddBookmarkSection = function () {
   return `
   <div class="js-header">
-  <form class="js-new-bookmark">
-    <fieldset>
-    <legend>Add New Bookmark</legend>
+  <form class="js-new-bookmark mid-width"">
+    <fieldset class="mid-width">
+    <legend class="mid-width">Add New Bookmark</legend>
       <input type="text" name="js-new-title" class="title-styles" size="25" placeholder=" Title e.g. Amazon" required />
       <input type="text" name="js-new-url" class="url-styles" size="22.5" placeholder="web address e.g. https://amazon.com" required />
       <div class="adding">
@@ -58,11 +58,11 @@ const generateAddBookmarkSection = function () {
 
 const generateExpansion = function (bookmark) {
   return `
-  <li class="js-bookmark-element" data-item-id="${bookmark.id}">
-    <fieldset><legend>${bookmark.title}</legend>
+  <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
+    <fieldset class="expanded"><legend class="expanded">${bookmark.title}</legend>
       <span><button><a href="${bookmark.url}" target="_blank">Visit Site</a></button></span>
       <textarea name="js-new-desc" class="desc-styles" rows="2" cols="16">${bookmark.desc}</textarea>
-      <span>${bookmark.rating}</span>
+      <span class="rating">${bookmark.rating}</span>
       <button class="js-delete button">Delete</button>
     </fieldset>
   </li>`;
