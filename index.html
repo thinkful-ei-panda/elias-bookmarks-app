@@ -11,52 +11,11 @@
 
 <body>
   <header class="group" >
-    <h1> Your Bookmarks</h1>
+    <h1 class="item"> Your Bookmarks</h1>
     <div class="js-header"></div>
-    <!-- <div id="js-header-adding"></div> -->
-    <div class="js-header-filter"></div>
   </header> 
-  <main class="group"><ul id="js-bookmarks"></ul></main>
-  <!---------------------->
-  <!---What do you Think?---><!--
-  <header class="group"> <h1> Your Bookmarks</h1><form class="js-new-bookmark">
-    <fieldset><legend>Enter a new bookmark here</legend>
-      <input type="text" name="js-new-title" class="title-styles" placeholder="e.g. Best Coding Bootcamp Ever" required/>
-      <input type="text" name="js-new-url" class="url-styles" placeholder="e.g. www.Thinkful.com" required/>
-      <textarea name="js-new-desc" class="desc-styles" rows="4" cols="20" placeholder="e.g. Thinkful Engineering Immersion is an all encompassing deep dive into the world of coding." required></textarea>
-      <select name="js-new-rating" id="rating-styles">
-        <option value="none" selected disabled hidden>1</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>  
-      <button type="submit">Add Bookmark</button>
-      <button type="submit">Filter</button>
-    </fieldset>
-  </form> <button id="js-add-item" class="item">+Add Item+</button><button id="js-filter-by" class="item">-Filter By-</button></header> -->
-
-  <!--
-  <main class="js-bookmarks group"><ul class="js-bookmarks-list whole-ul-styles">
-    <li class="js-bookmark-element" data-item-id="123">
-      <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
-      <button class="js-toggle-expand">Expand</button>
-    </li>
-    <li class="js-bookmark-element" data-item-id="1234">
-      <fieldset><legend class="title-styles">Bookmark Title</legend>
-        <span class="js-made-bookmarks textarea-styles">Description</span>
-        <span class="js-made-bookmarks">Rating</span>
-        <span class="js-made-bookmarks url-styles">URL<span>
-        <button class="js-toggle-expand">Delete</button>
-    </li>
-    <li class="js-bookmark-element" data-item-id="12345">
-      <span class="js-bookmark-title title-styles">Bookmark Name and Bookmark Rating</span> 
-      <button class="js-toggle-expand">Expand</button>
-    </li>
-  </ul></main>
-  What do you Think?-->
-  <!---------------------->
+  <main class="group"><ul id="js-bookmarks" class="item"></ul></main>
+  
   <script src="https://code.jquery.com/jquery-3.4.1.slim.js" crossorigin="anonymous"></script>
   <script type="module" src="scripts/index.js" ></script>
   <script type="module" src="scripts/store.js"></script>
