@@ -63,8 +63,8 @@ const generateExpansion = function (bookmark) {
   <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
     <fieldset class="expanded"><legend align="center" class="expanded">${bookmark.title}</legend>
       <span align="center"><button class="button" id="visit-site">Visit Site</a></button></span>
-      <textarea name="js-new-desc" align="center" class="desc-styles">${bookmark.desc}</textarea>
-      <span align="center" class="rating">${bookmark.rating}</span>
+      <textarea name="js-new-desc" align="center" class="desc-styles-expanded">${bookmark.desc}</textarea>
+      <span align="center" class="rating">Rating of ${bookmark.rating}</span>
       <span align="center"><button class="js-delete button">Delete</button></span>
     </fieldset>
   </li>`;
