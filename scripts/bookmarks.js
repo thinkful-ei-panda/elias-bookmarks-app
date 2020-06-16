@@ -1,6 +1,8 @@
 import store from './store.js';
 import api from './api.js';
 
+//------------------------  generators      ----------------------//
+//------------------------  generators      ----------------------//
 const generateStartPage = function() {
   return `
   <div class="js-header">
@@ -14,15 +16,15 @@ const generateFilterBySection = function () {
   <div class="js-header"></div>
   <div class="js-header-filter">
   <form> 
-    <select id="js-filterBy-val">
-      <option value="none" selected disabled hidden>0</option>
+    <select id="js-filterBy-val" class="filterRating" name="filterBy">
+      <option value="0" selected disabled hidden>Filter:</option>
+      <option value="0">None</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <input type="submit" id="js-filterBy-submit" class="button"></input>
     <button id="cancel" class="button">Cancel</button>
   </form>
   </div`;
@@ -30,16 +32,16 @@ const generateFilterBySection = function () {
 
 const generateAddBookmarkSection = function () {
   return `
-  <div class="js-header">
-  <form class="js-new-bookmark mid-width"">
-    <fieldset class="mid-width">
-    <legend class="mid-width">Add New Bookmark</legend>
+  <div class="js-header" id="addDiv">
+  <form class="js-new-bookmark mid-width" id="addSection">
+    <fieldset class="mid-width" id="addField">
+    <legend class="mid-width" id="addLegend">Add New Bookmark</legend>
       <input type="text" name="js-new-title" class="title-styles" size="25" placeholder=" Title e.g. Amazon" required />
       <input type="text" name="js-new-url" class="url-styles" size="22.5" placeholder="web address e.g. https://amazon.com" required />
       <div class="adding">
       <textarea name="js-new-desc" class="desc-styles" size="24" placeholder="Describe and rate it --------->"></textarea>
       <select name="js-new-rating" id="rating-styles">
-        <option value="none" selected disabled hidden>1</option>
+        <option value="0" selected disabled hidden>Rating</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -59,11 +61,11 @@ const generateAddBookmarkSection = function () {
 const generateExpansion = function (bookmark) {
   return `
   <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
-    <fieldset class="expanded"><legend class="expanded">${bookmark.title}</legend>
-      <span><button><a href="${bookmark.url}" target="_blank">Visit Site</a></button></span>
-      <textarea name="js-new-desc" class="desc-styles" rows="2" cols="16">${bookmark.desc}</textarea>
-      <span class="rating">${bookmark.rating}</span>
-      <button class="js-delete button">Delete</button>
+    <fieldset class="expanded"><legend align="center" class="expanded">${bookmark.title}</legend>
+      <span align="center"><button class="button" id="visit-site">Visit Site</a></button></span>
+      <textarea name="js-new-desc" align="center" class="desc-styles">${bookmark.desc}</textarea>
+      <span align="center" class="rating">${bookmark.rating}</span>
+      <span align="center"><button class="js-delete button">Delete</button></span>
     </fieldset>
   </li>`;
 };
@@ -73,6 +75,16 @@ const generateBookmarkElement = function (bookmark) {
   <li class="js-bookmark-element" data-item-id="${bookmark.id}">
       <h2>${bookmark.title}</h2> <h3>${bookmark.rating}</h3>
   </li>`;
+};
+
+const generateError = function (message) {
+  return `
+  <div class="js-header">
+  <span>
+  <button id="cancel">Reset</button>
+  ${message}
+  </span>
+  </div>`;
 };
 
 const generateBookmarksString = function (bookmarksList) {
@@ -110,6 +122,14 @@ const renderAddingSection = function () {
 const renderFilterBy = function () {
   $('.js-header').html(generateFilterBySection());
 };
+
+const renderError = function () {
+  if (store.error) {
+    const error = generateError(store.error);
+    $('.js-header').html(error);
+  }
+};
+
 
 //------------------------  handlers      ----------------------//
 //------------------------  handlers      ----------------------//
@@ -192,17 +212,12 @@ const handleNewBookmarkSubmit =  function () {
 };
 
 const handleFilterBy = function () {
-  $('.js-header-filter').submit(event => {
+  $('header').on('change','#js-filterBy-val', event => {
     event.preventDefault();
     store.filter = $('#js-filterBy-val :selected').val();
+    renderStartPage();
     render();
   });
-};
-
-const getBookmarkId = function (atom) {
-  return $(atom)
-    .closest('.js-bookmark-element')
-    .data('item-id');
 };
 
 const handleDelete = function() {
@@ -221,23 +236,12 @@ const handleDelete = function() {
   });
 };
 
-
-
-const generateError = function (message) {
-  return `
-  <div class="js-header">
-  <span>
-  <button id="cancel">Reset</button>
-  ${message}
-  </span>
-  </div>`;
-};
-
-const renderError = function () {
-  if (store.error) {
-    const error = generateError(store.error);
-    $('.js-header').html(error);
-  }
+const handleVisitSiteClick = function () {
+  $('main').on('click','#visit-site', event => {
+    const id = getBookmarkId(event.currentTarget);
+    const bookmark = store.findById(id);
+    window.open(`${bookmark.url}`);
+  });
 };
 
 const handleCloseError = function () {
@@ -248,13 +252,23 @@ const handleCloseError = function () {
 
 };
 
+//------------------------  misc      ----------------------//
+//------------------------  misc      ----------------------//
+const getBookmarkId = function (atom) {
+  return $(atom)
+    .closest('.js-bookmark-element')
+    .data('item-id');
+};
 
+//------------------------  end     ----------------------//
+//------------------------  end     ----------------------//
 const boundFunctions = function() {
   handleStartPage();
   handleAddingPage();
   handleCancelButton();
   handleNewBookmarkSubmit();
   handleExpand();
+  handleVisitSiteClick();
   handleDelete();
   handleFilterByPage();
   handleFilterBy();
