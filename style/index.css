@@ -34,14 +34,49 @@ header.group {
 
 h1 {
   margin: auto;
+  cursor: default;
   text-align: center;
   font-family: 'Metal Mania', cursive;
   color: #fff;
   font-size: 55px;
-  background-color: rgb(100, 100, 100);
+  background-color: rgb(99, 87, 87);
   padding: 15px;
-  border: solid 2px rgb(90, 90, 90);
+  border: solid 2px rgb(95, 69, 69);
   border-radius: 6px;
+}
+
+h2, p {
+  margin: 0;
+  font-family: 'Metal Mania', cursive;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  width: auto;
+  margin: 8px;
+  padding: 5px;
+  background-color: rgb(99, 87, 87);
+  border: solid 2px rgb(95, 69, 69);
+  border-radius: 6px;
+}
+
+textarea {
+  resize: none;
+  width: 220px;
+  height: 60px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12vh;
+  padding: 0px;
+}
+
+.item {
+  flex: 1;
+  margin: 0;
 }
 
 div.js-header {
@@ -57,43 +92,12 @@ button#js-filterBy.button {
   margin-left: 8px;
 }
 
-h2, h3 {
-  margin: auto;
-  text-align: center;
-  font-family: 'Open Sans', sans-serif;
-  color: #fff;
+form#addSection {
+  padding-bottom: 43.3vh;
 }
 
-.group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 100px;
-  
-  padding: 10px;
-}
-
-span {
-  display: block;
-}
-
-.item {
-  flex: 1;
-  margin: auto;
-}
-
-.title-styles {
-  font-family: 'Open Sans', sans-serif;
-}
-
-
-#js-bookmarks.item {
-  list-style: none;
-  width: 100%;
-  padding: 0;
-}
-
-form#addSection.js-new-bookmark {
-  padding-bottom: 100px;
+form#filterSection {
+  padding-top: 2vh;
 }
 
 fieldset#addField {
@@ -101,8 +105,8 @@ fieldset#addField {
   margin-top: 100px;
   border: 0;
   border-top: 1px solid #DDD;
-  margin-bottom: 100px;
-  padding-bottom: 79px;
+  border-bottom: 1px solid #DDD;
+  margin-bottom: 0;
 }
 
 legend#addLegend {
@@ -111,72 +115,55 @@ legend#addLegend {
   color: #fff;
   padding: 5px;
   font-size: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
-input.title-styles {
-  padding: 5px;
+input#js-title-val, input#js-url-val, #js-desc-val, #js-rating-val {
+  flex: 1;
 }
 
-input.url-styles {
-  padding: 5px;
+span {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3px;
+  align-content: flex-start;
 }
 
 .js-bookmark-element {
-  display: flex;
-  justify-content: space-evenly;
-  flex: 1;
   background-color: #2E2E2E;
   margin: 0 5px 10px 5px;
   padding: 15px;
   border: solid 2px;
   border-radius: 5px;
+  cursor: grab;
 }
 
-.button {
-  font-family: 'Open Sans', sans-serif;
-  background-color: rgb(82, 79, 79);
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 8px 6px -7px #000;
+.expanded {
+  cursor: grab;
 }
 
-.adding {
-  display: flex;
-  justify-content: space-evenly;
+.js-bookmark-element:hover {
+  background-color: #26242e;
+  color: #534e70
 }
 
-.submitAndCancel {
-  margin-top: 20px;
-}
-
-.rating {
-  font-family: 'Open Sans', sans-serif;
-  color: #fff;
-  margin-bottom: 5px;
-}
-
-.js-bookmark-element.expanded {
+label {
   flex: 1;
-  margin: 3px;
-  padding: 0;
-  justify-content: space-evenly;
-};
-
-fieldset.expanded {
-  border: 0 none;
+  justify-content: flex-start;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
 }
 
-legend.expanded {
-  font-family: 'Metal Mania', cursive;
-  color: #fff;
-  font-size: 30px;
+p.expanded {
+  flex: 1;
+}
+
+#visit-site.button {
+  flex: 1;
 }
 
 textarea.desc-styles-expanded {
-  resize: none;
-  width: 220px;
-  height: 60px;
+  flex: 1;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #fff;
@@ -185,70 +172,57 @@ textarea.desc-styles-expanded {
   background-color: rgb(83, 83, 83);
   box-shadow: 0 8px 6px -7px #000;
   margin-top: 6px;
+  cursor: grab;
+}
+
+button, .button {
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgb(82, 79, 79);
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 8px 6px -7px #000;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #1a1a1a;
+  color: #5c5c5c
+}
+
+.submitAndCancel {
+  margin-top: 20px;
+}
+
+.errorMessage {
+  flex: 1;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 4px;
+  border: none;
+  background-color: rgb(83, 83, 83);
+  box-shadow: 0 8px 6px -7px #000;
+  margin-top: 6px;
+  cursor: default;
 }
 
 @media all and (min-width: 700px) {
-  .group {
-    flex-direction: column;
-    margin-bottom: 250px;
-  }
-
-  /* header {
-    margin-bottom: 150px;
-  } */
-
-  .item {
-    flex: 1;
+  form#addSection {
+    padding-top: 10vh;
+    padding-bottom: 53.5vh;
   }
   
-  div.js-header {
-    flex: 1;
-  }
-
-  .mid-width {
-    margin: 0;
-    padding: 0;
-  }
-
-  fieldset.mid-width  {
-    margin-top: 150px 2px;
-    border: solid 1px;
-    border-color: #fff;
-    margin: 0;
-    padding-bottom: 5px;
-  }
-
-  form#addSection.js-new-bookmark {
-    padding-bottom: 518px;
-    padding-top: 168px;
-  }
-  
-  legend {
-    color: #fff;
-    padding: 5px;
-    font-size: 30px;
-    margin-bottom: 5px;
-  }
-
 }
 
 @media all and (min-width: 1100px) {
   .group {
     flex-direction: row;
-    margin-bottom: 100px;
+    justify-content: space-evenly;
   }
 
-  .item {
+  form#addSection {
+    padding: 10px;
     flex: 1;
-  }
-
-  div.js-header {
-    flex: 1;
-    margin: auto;
-  }
-
-  #js-bookmarks {
-    width: 50%;
   }
 
   fieldset#addField {
@@ -259,15 +233,17 @@ textarea.desc-styles-expanded {
     padding-bottom: 5px;
   }
 
-  form#addSection.js-new-bookmark {
-    padding: 15px;
+  .errorMessage {
+    flex: 0;
   }
-  
-  legend {
-    color: #fff;
-    padding: 5px;
-    font-size: 30px;
-    margin-bottom: 5px;
+
+  /* li {
+    flex:1;
+  } */
+
+  ul {
+    flex: 1;
+    max-width: 65vh;
   }
 
 }

@@ -5,97 +5,132 @@ import api from './api.js';
 //------------------------  generators      ----------------------//
 const generateStartPage = function() {
   return `
-  <div class="js-header">
-    <button id="js-add-item" class="button">Add Item</button>
-    <button id="js-filterBy" class="button">Filter By</button>
+  <div>
+    <h1 class="item">Your Bookmarks</h1>
+    <button id="js-add-item" class="submitAndCancel button">Add</button>
+    <button id="js-filterBy" class="submitAndCancel button">Filter</button>
   </div>`;
 };
 
 const generateFilterBySection = function () {
   return `
-  <div class="js-header"></div>
-  <div class="js-header-filter">
-  <form> 
+  <div>
+  <h1 class="item">Your Bookmarks</h1>
+  <form id="filterSection">
+    <button id="cancel" class="button">Cancel</button> 
     <select id="js-filterBy-val" class="filterRating" name="filterBy">
       <option value="0" selected disabled hidden>Filter:</option>
-      <option value="0">None</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
       <option value="5">5</option>
     </select>
-    <button id="cancel" class="button">Cancel</button>
   </form>
-  </div`;
+  </div>`;
 };
 
 const generateAddBookmarkSection = function () {
   return `
-  <div class="js-header" id="addDiv">
-  <form class="js-new-bookmark mid-width" id="addSection">
-    <fieldset class="mid-width" id="addField">
-    <legend class="mid-width" id="addLegend">Add New Bookmark</legend>
-      <input type="text" name="js-new-title" class="title-styles" size="25" placeholder=" Title e.g. Amazon" required />
-      <input type="text" name="js-new-url" class="url-styles" size="22.5" placeholder="web address e.g. https://amazon.com" required />
-      <div class="adding">
-      <textarea name="js-new-desc" class="desc-styles" size="24" placeholder="Describe and rate it --------->"></textarea>
-      <select name="js-new-rating" id="rating-styles">
-        <option value="0" selected disabled hidden>Rating</option>
+  <h1 class="item"> Your Bookmarks</h1>
+  <div class="errorMessage"></div>
+  <form id="addSection">
+    <fieldset id="addField">
+    <legend id="addLegend">Add New Bookmark</legend>
+      
+      <span class="addForm">
+      <label for="addBookmark-title">Title</label>
+      <input type="text" name="addBookmark-title" id="js-title-val" placeholder="e.g. Amazon" required />
+      </span>
+
+      <span class="addForm">
+      <label for="addBookmark-url">URL</label>
+      <input type="text" name="addBookmark-url" id="js-url-val" placeholder="e.g. https://amazon.com" required />
+      </span>
+      
+      <span class="addForm">
+      <label for="addBookmark-desc">Description</label>
+      <textarea name="addBookmark-desc" id="js-desc-val" placeholder="e.g. America's online retail giant."></textarea>
+      </span>
+      
+      <span class="addForm-rating">
+      <label for="addBookmark-rating">Rating</label>
+      <select required="true" name="addBookmark-rating" id="js-rating-val">
+        <option value="0">Good time to be judgy</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5</option>
       </select>
-      </div>  
-      <div class="submitAndCancel">
-      <input type="submit" id="add-bookmark" class="button" required></input>
+      </span>
+      
+      <span class="addForm submitAndCancel">
+      <input type="submit" class="button" required/>
       <button type="click" id="cancel" class="button">Cancel</button>
-      </div>
+      </span>
+
     </fieldset>
-  </form>
-  </div>`;
+  </form>`;
 };
 
 const generateExpansion = function (bookmark) {
   return `
   <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
-    <fieldset class="expanded"><legend align="center" class="expanded">${bookmark.title}</legend>
-      <span align="center"><button class="button" id="visit-site">Visit Site</a></button></span>
-      <textarea name="js-new-desc" align="center" class="desc-styles-expanded">${bookmark.desc}</textarea>
-      <span align="center" class="rating">Rating of ${bookmark.rating}</span>
-      <span align="center"><button class="js-delete button">Delete</button></span>
-    </fieldset>
+    
+    <span class="expansionSpan">
+    <label class="expanded" for="expanded-title">Title</label>
+    <p class="expanded" name="expanded-title">${bookmark.title}</p>
+    </span>
+
+    <span class="expansionSpan">
+    <label class="expanded" for="expanded-url">URL</label>
+    <button class="button" id="visit-site" name="expanded-url">Visit Site</a></button>
+    </span>
+
+    <span class="expansionSpan">
+    <label class="expanded" for="expanded-desc">Description</label>
+    <textarea name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</textarea>
+    </span>
+
+    <span class="expansionSpan">
+    <label class="expanded" for="expanded-rating">Rating</label>
+    <p class="expanded" name="expanded-rating">${bookmark.rating}</p>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="js-delete button">Delete</button>
+    </span>
+
+    
   </li>`;
 };
 
 const generateBookmarkElement = function (bookmark) {
   return `
   <li class="js-bookmark-element" data-item-id="${bookmark.id}">
-      <h2>${bookmark.title}</h2> <h3>${bookmark.rating}</h3>
+      <h2>${bookmark.title}</h2> <p>${bookmark.rating}</p>
   </li>`;
 };
 
-const generateError = function (message) {
+const generateError = function (error) {
   return `
-  <div class="js-header">
-  <span>
-  <button id="cancel">Reset</button>
-  ${message}
-  </span>
+  <div>
+    <button id="cancel">Reset</button>
+    <span>${error.message}</span>
   </div>`;
 };
 
 const generateBookmarksString = function (bookmarksList) {
-  const bookmarks = bookmarksList.map((bookmark) => {
+  const almostbookmarks = bookmarksList.map((bookmark) => {
     if(bookmark.expanded) {
       return generateExpansion(bookmark);
     } else {
       return generateBookmarkElement(bookmark);
     }
   });
-  return bookmarks.join('');
+  const bookmarks = `<ul align="center" >${almostbookmarks.join('')}</ul>`;
+  return bookmarks;
 };
 
 //------------------------  renderers      ----------------------//
@@ -107,26 +142,29 @@ const render = function () {
     bookmarks = bookmarks.filter(bookmark => bookmark.rating >= store.filter);
   }
   const bookmarksString = generateBookmarksString(bookmarks);
-  $('#js-bookmarks').html(bookmarksString);
+  $('main').html(bookmarksString);
 };
 
 const renderStartPage = function ()  {
-  $('.js-header').html(generateStartPage());
+  $('header').html(generateStartPage());
 };
 
 const renderAddingSection = function () {
-  $('.js-header').html(generateAddBookmarkSection());
+  $('header').html(generateAddBookmarkSection());
   store.adding = !store.adding;
 };
 
 const renderFilterBy = function () {
-  $('.js-header').html(generateFilterBySection());
+  $('header').html(generateFilterBySection());
 };
 
 const renderError = function () {
   if (store.error) {
-    const error = generateError(store.error);
-    $('.js-header').html(error);
+    const err = generateError(store.error);
+    console.log(err);
+    $('.errorMessage').html(err);
+  } else {
+    $('.errorMessage').empty();
   }
 };
 
@@ -146,14 +184,14 @@ const handleStartPage = function () {
       });
       render();
     })
-    .catch((error) =>{
-      console.log(error);
-      store.setError(error.message);
+    .catch(error => {
+      store.error = error;
+      renderError();
     });
 };
 
 const handleAddingPage = function () {
-  $('.js-header').on('click','#js-add-item', event => {
+  $('header').on('click','#js-add-item', event => {
     event.preventDefault();
     renderAddingSection();
   });
@@ -169,6 +207,9 @@ const handleFilterByPage = function () {
 const handleCancelButton = function () {
   $('header').on('click','#cancel', event => {
     event.preventDefault();
+    /* if(store.error){
+      store.error=null;
+    } */
     renderStartPage();
     render();
   });
@@ -185,14 +226,14 @@ const handleExpand = function () {
 };
 
 const handleNewBookmarkSubmit =  function () {
-  $('.js-header').submit(event => {
+  $('header').submit(event => {
     event.preventDefault();
     store.filter = $('#js-filterBy-val :selected').val();
     const newBookmark = {};
-    newBookmark.title = $('.title-styles').val();
-    newBookmark.url = $('.url-styles').val();
-    newBookmark.desc = $('.desc-styles').val();
-    newBookmark.rating = $('#rating-styles :selected').val();
+    newBookmark.title = $('#js-title-val').val();
+    newBookmark.url = $('#js-url-val').val();
+    newBookmark.desc = $('#js-desc-val').val();
+    newBookmark.rating = $('#js-rating-val :selected').val();
     if ( parseInt(store.filter) > 0 ) {
       return render();
     }
@@ -203,11 +244,11 @@ const handleNewBookmarkSubmit =  function () {
         renderStartPage();
         render();
       })
-      .catch((error) =>{
-        console.log(error);
-        store.setError(error.message);
+      .catch(error => {
+        console.log('we got error catching triggered');
+        store.error = error;
+        renderError();
       });
-
   });
 };
 
@@ -228,9 +269,8 @@ const handleDelete = function() {
         store.findAndDelete(id);
         render();
       })
-      .catch((error) => {
-        console.log(error);
-        store.setError(error.message);
+      .catch(error => {
+        store.error = error;
         renderError();
       });
   });
@@ -246,7 +286,7 @@ const handleVisitSiteClick = function () {
 
 const handleCloseError = function () {
   $('main').on('click', '#cancel', () => {
-    store.setError(null);
+    store.error = null;
     renderError();
   });
 

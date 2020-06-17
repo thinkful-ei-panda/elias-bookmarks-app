@@ -22,11 +22,6 @@ const toggleFilter = function (filterBy) {
 const findAndUpdate = function (id, newData) {
   const currentItem = this.findById(id);
   Object.assign(currentItem, newData);
-  console.log(`${currentItem.title} was given expanded = ${currentItem.expanded}`);
-};
-
-const setError = function () {
-  this.error = error;
 };
 
 export default{
@@ -39,5 +34,4 @@ export default{
   addBookmark,
   findAndDelete,
   toggleFilter,
-  setError
 };
