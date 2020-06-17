@@ -55,8 +55,8 @@ const generateAddBookmarkSection = function () {
       
       <span class="addForm-rating">
       <label for="addBookmark-rating">Rating</label>
-      <select required="true" name="addBookmark-rating" id="js-rating-val">
-        <option value="0">Good time to be judgy</option>
+      <select required="true" name="addBookmark-rating" id="js-rating-val" required="true">
+        <option value="">Good time to be judgy</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
