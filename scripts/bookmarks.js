@@ -8,27 +8,34 @@ const generateStartPage = function() {
   <div>
     <h1 class="item">Your Bookmarks</h1>
     <button id="js-add-item" class="submitAndCancel button">Add</button>
-    <button id="js-filterBy" class="submitAndCancel button">Filter</button>
+    <select id="js-filterBy-val" class="filterRating" name="filterBy">
+        <option value="0" selected disabled hidden>Filter:</option>
+        <option value="1">1 &#9733</option>
+        <option value="2">2 &#9733</option>
+        <option value="3">3 &#9733</option>
+        <option value="4">4 &#9733</option>
+        <option value="5">5 &#9733</option>
+      </select>
   </div>`;
 };
 
-const generateFilterBySection = function () {
+/* const generateFilterBySection = function () {
   return `
   <div>
-  <h1 class="item">Your Bookmarks</h1>
-  <form id="filterSection">
-    <button id="cancel" class="button">Cancel</button> 
-    <select id="js-filterBy-val" class="filterRating" name="filterBy">
-      <option value="0" selected disabled hidden>Filter:</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-  </form>
+    <h1 class="item">Your Bookmarks</h1>
+    <form id="filterSection">
+      <button id="cancel" class="button">Cancel</button> 
+      <select id="js-filterBy-val" class="filterRating" name="filterBy">
+        <option value="0" selected disabled hidden>Filter:</option>
+        <option value="1">1 &#9733</option>
+        <option value="2">2 &#9733</option>
+        <option value="3">3 &#9733</option>
+        <option value="4">4 &#9733</option>
+        <option value="5">5 &#9733</option>
+      </select>
+    </form>
   </div>`;
-};
+}; */
 
 const generateAddBookmarkSection = function () {
   return `
@@ -57,45 +64,44 @@ const generateAddBookmarkSection = function () {
       <label for="addBookmark-rating">Rating</label>
       <select required="true" name="addBookmark-rating" id="js-rating-val" required="true">
         <option value="">Good time to be judgy</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+        <option value="1">1 &#9733</option>
+        <option value="2">2 &#9733</option>
+        <option value="3">3 &#9733</option>
+        <option value="4">4 &#9733</option>
+        <option value="5">5 &#9733</option>
       </select>
       </span>
       
       <span class="addForm submitAndCancel">
-      <input type="submit" class="button" required/>
       <button type="click" id="cancel" class="button">Cancel</button>
+      <input type="submit" class="button submit" required/>
       </span>
 
     </fieldset>
   </form>`;
 };
 
+//------------------------  detailed view generators      ----------------------//
+//------------------------  detailed view generators      ----------------------//
 const generateExpansion = function (bookmark) {
-  return `
+  if (bookmark.rating===5) {
+    return `
   <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
     
     <span class="expansionSpan">
-    <label class="expanded" for="expanded-title">Title</label>
-    <p class="expanded" name="expanded-title">${bookmark.title}</p>
+    <h2 class="expanded-title" name="expanded-title">${bookmark.title}</h2>
     </span>
 
     <span class="expansionSpan">
-    <label class="expanded" for="expanded-url">URL</label>
     <button class="button" id="visit-site" name="expanded-url">Visit Site</a></button>
     </span>
 
     <span class="expansionSpan">
-    <label class="expanded" for="expanded-desc">Description</label>
-    <textarea name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</textarea>
+    <p name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</p>
     </span>
 
     <span class="expansionSpan">
-    <label class="expanded" for="expanded-rating">Rating</label>
-    <p class="expanded" name="expanded-rating">${bookmark.rating}</p>
+    <p class="expanded" name="expanded-rating"> &#9733 &#9733 &#9733 &#9733 &#9733 </p>
     </span>
 
     <span class="expansionSpan">
@@ -104,20 +110,151 @@ const generateExpansion = function (bookmark) {
 
     
   </li>`;
+  } else if (bookmark.rating===4) {
+    return `
+  <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
+    
+    <span class="expansionSpan">
+    <h2 class="expanded-title" name="expanded-title">${bookmark.title}</h2>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="button" id="visit-site" name="expanded-url">Visit Site</a></button>
+    </span>
+
+    <span class="expansionSpan">
+    <p name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</p>
+    </span>
+
+    <span class="expansionSpan">
+    <p class="expanded" name="expanded-rating"> &#9733 &#9733 &#9733 &#9733 &#9734 </p>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="js-delete button">Delete</button>
+    </span>
+
+    
+  </li>`;
+  } else if (bookmark.rating===3) {
+    return `
+  <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
+    
+    <span class="expansionSpan">
+    <h2 class="expanded-title" name="expanded-title">${bookmark.title}</h2>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="button" id="visit-site" name="expanded-url">Visit Site</a></button>
+    </span>
+
+    <span class="expansionSpan">
+    <p name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</p>
+    </span>
+
+    <span class="expansionSpan">
+    <p class="expanded" name="expanded-rating"> &#9733 &#9733 &#9733 &#9734 &#9734 </p>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="js-delete button">Delete</button>
+    </span>
+
+    
+  </li>`;
+  } else if (bookmark.rating===2) {
+    return `
+  <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
+    
+    <span class="expansionSpan">
+    <h2 class="expanded-title" name="expanded-title">${bookmark.title}</h2>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="button" id="visit-site" name="expanded-url">Visit Site</a></button>
+    </span>
+
+    <span class="expansionSpan">
+    <p name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</p>
+    </span>
+
+    <span class="expansionSpan">
+    <p class="expanded" name="expanded-rating"> &#9733 &#9733 &#9734 &#9734 &#9734 </p>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="js-delete button">Delete</button>
+    </span>
+
+    
+  </li>`;
+  } else {
+    return `
+  <li class="js-bookmark-element expanded" data-item-id="${bookmark.id}">
+    
+    <span class="expansionSpan">
+    <h2 class="expanded-title" name="expanded-title">${bookmark.title}</h2>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="button" id="visit-site" name="expanded-url">Visit Site</a></button>
+    </span>
+
+    <span class="expansionSpan">
+    <p name="js-new-desc" align="center" class="desc-styles-expanded" name="expanded-desc">${bookmark.desc}</p>
+    </span>
+
+    <span class="expansionSpan">
+    <p class="expanded" name="expanded-rating"> &#9733 &#9734 &#9734 &#9734 &#9734 </p>
+    </span>
+
+    <span class="expansionSpan">
+    <button class="js-delete button">Delete</button>
+    </span>
+
+    
+  </li>`;
+  }
 };
 
+//------------------------  collapsed view generators      ----------------------//
+//------------------------  collapsed view generators      ----------------------//
 const generateBookmarkElement = function (bookmark) {
-  return `
+  
+  if (bookmark.rating===5) {
+    return `
   <li class="js-bookmark-element" data-item-id="${bookmark.id}">
-      <h2>${bookmark.title}</h2> <p>${bookmark.rating}</p>
+      <h2>${bookmark.title}</h2> <p class="collapsed-rating"> &#9733 &#9733 &#9733 &#9733 &#9733 </p>
   </li>`;
+  } else if (bookmark.rating===4) {
+    return `
+  <li class="js-bookmark-element" data-item-id="${bookmark.id}">
+      <h2>${bookmark.title}</h2> <p class="collapsed-rating"> &#9733 &#9733 &#9733 &#9733 &#9734 </p>
+  </li>`;
+  } else if (bookmark.rating===3) {
+    return `
+  <li class="js-bookmark-element" data-item-id="${bookmark.id}">
+      <h2>${bookmark.title}</h2> <p class="collapsed-rating"> &#9733 &#9733 &#9733 &#9734 &#9734 </p>
+  </li>`;
+  } else if (bookmark.rating===2) {
+    return `
+  <li class="js-bookmark-element" data-item-id="${bookmark.id}">
+      <h2>${bookmark.title}</h2> <p class="collapsed-rating"> &#9733 &#9733 &#9734 &#9734 &#9734 </p>
+  </li>`;
+  } else {
+    return `
+  <li class="js-bookmark-element" data-item-id="${bookmark.id}">
+      <h2>${bookmark.title}</h2> <p class="collapsed-rating"> &#9733 &#9734 &#9734 &#9734 &#9734 </p>
+  </li>`;
+  }
 };
 
 const generateError = function (error) {
   return `
   <div>
     <button id="cancel">Reset</button>
-    <span>${error.message}</span>
+    <span class="errorBox">${error.message}</span>
+    <span class="errorBox">In other words, to add your bookmark, copy the exact "url" from the address bar</span>
   </div>`;
 };
 
@@ -154,9 +291,9 @@ const renderAddingSection = function () {
   store.adding = !store.adding;
 };
 
-const renderFilterBy = function () {
+/* const renderFilterBy = function () {
   $('header').html(generateFilterBySection());
-};
+}; */
 
 const renderError = function () {
   if (store.error) {
@@ -207,9 +344,11 @@ const handleFilterByPage = function () {
 const handleCancelButton = function () {
   $('header').on('click','#cancel', event => {
     event.preventDefault();
-    /* if(store.error){
+    if(store.error){
       store.error=null;
-    } */
+      return renderAddingSection();
+    }
+    console.log(store.error);
     renderStartPage();
     render();
   });
@@ -245,7 +384,7 @@ const handleNewBookmarkSubmit =  function () {
         render();
       })
       .catch(error => {
-        console.log('we got error catching triggered');
+        console.log(typeof(error.message));
         store.error = error;
         renderError();
       });
